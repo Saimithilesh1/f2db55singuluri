@@ -1,15 +1,31 @@
-var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
+var mongoose = require('mongoose')
+var mongodb = require('mongodb')
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
+var oil = require("./models/oil");
+require('dotenv').config();
+const connectionString =
+  process.env.MONGO_CON
+mongoose = require('mongoose');
+mongoose.connect(connectionString,
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  });
+var db = mongoose.connection;
+//Bind connection to error event
+db.on('error', console.error.bind(console, 'MongoDB connectionerror:'));
+db.once("open", function () {
+  console.log("Connection to DB succeeded")
+});
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var oilRouter = require('./routes/oil');
 var gridbuildRouter = require('./routes/gridbuild');
 var selectorRouter = require('./routes/selector');
-
+var resourceRouter = require('./routes/resource');
 
 var app = express();
 
@@ -28,7 +44,55 @@ app.use('/users', usersRouter);
 app.use('/oil', oilRouter);
 app.use('/gridbuild', gridbuildRouter);
 app.use('/selector', selectorRouter);
+app.use('/resource', resourceRouter);
 
+// We can seed the collection if needed on server start
+async function recreateDB(){
+
+  // Delete everything
+  await oil.deleteMany();
+ 
+  let instance1 = new
+ 
+ oil({Oil_Name:"Light olive oil", Oil_Company:'E&P Company',Oil_cost:6.3,Oil_Rating:4.7});
+ 
+  instance1.save( function(err,doc) {
+ 
+  if(err) return console.error(err);
+ 
+  console.log("First oil details saved")
+ 
+  });
+ 
+  let instance2 = new
+ 
+  oil({Oil_Name:"Coconut oil", Oil_Company:'Drilling Contractors',Oil_cost:9.8,Oil_Rating:4.5});
+ 
+   instance2.save( function(err,doc) {
+ 
+   if(err) return console.error(err);
+ 
+   console.log("Second oil details saved")
+ 
+   });
+ 
+   let instance3 = new
+ 
+   oil({Oil_Name:"Avocado oil", Oil_Company:'Refinery',Oil_cost:11.6,Oil_Rating:4.9});
+ 
+    instance3.save( function(err,doc) {
+ 
+    if(err) return console.error(err);
+ 
+    console.log("Third oil details saved")
+ 
+    });
+ 
+ }
+ 
+ let reseed = true;
+ 
+ if (reseed) { recreateDB();}
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
