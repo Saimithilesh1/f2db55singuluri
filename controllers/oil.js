@@ -4,8 +4,15 @@ exports.oil_list = function(req, res) {
     res.send('NOT IMPLEMENTED: oil list');
 };
 // for a specific oil.
-exports.oil_detail = function(req, res) {
-    res.send('NOT IMPLEMENTED: oil detail: ' + req.params.id);
+exports.oil_detail = async function(req, res) {
+    console.log("detail"  + req.params.id)
+    try {
+        result = await oil.findById( req.params.id)
+        res.send(result)
+    } catch (error) {
+        res.status(500)
+        res.send(`{"error": document for id ${req.params.id} not found`);
+    }
 };
 // Handle oil create on POST.
 exports.oil_create_post = async function(req, res) {
@@ -41,6 +48,27 @@ exports.oil_list = async function(req, res) {
         res.status(500);
         res.send(`{"error": ${err}}`);
     }  
+};
+
+// Handle oil update form on PUT.
+exports.oil_update_put = async function(req, res) {
+    console.log(`update on id ${req.params.id} with body
+${JSON.stringify(req.body)}`)
+    try {
+        let toUpdate = await oil.findById( req.params.id)
+        // Do updates of properties
+        if(req.body.Oil_Name)
+               toUpdate.Oil_Name = req.body.Oil_Name;
+        if(req.body.Company) toUpdate.Company = req.body.Company;
+        if(req.body.cost) toUpdate.cost = req.body.cost;
+        if(req.body.Rating) toUpdate.Rating = req.body.Rating;
+        let result = await toUpdate.save();
+        console.log("Sucess " + result)
+        res.send(result)
+    } catch (err) {
+        res.status(500)
+        res.send(`{"error": ${err}: Update for id ${req.params.id}failed`);
+    }
 };
 // VIEWS
 // Handle a show all view

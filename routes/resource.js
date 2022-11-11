@@ -18,3 +18,6 @@ router.get('/oils/:id', oil_controller.oil_detail);
 // GET request for list of all oil items.
 router.get('/oils', oil_controller.oil_list);
 module.exports = router;
+
+// GET request for one oil.
+router.get('/oil/:id', oil_controller.oil_detail);
