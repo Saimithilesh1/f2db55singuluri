@@ -59,9 +59,9 @@ ${JSON.stringify(req.body)}`)
         // Do updates of properties
         if(req.body.Oil_Name)
                toUpdate.Oil_Name = req.body.Oil_Name;
-        if(req.body.Company) toUpdate.Company = req.body.Company;
-        if(req.body.cost) toUpdate.cost = req.body.cost;
-        if(req.body.Rating) toUpdate.Rating = req.body.Rating;
+        if(req.body.Oil_Company) toUpdate.Oil_Company = req.body.Oil_Company;
+        if(req.body.Oil_cost) toUpdate.Oil_cost = req.body.Oil_cost;
+        if(req.body.Oil_Rating) toUpdate.Oil_Rating = req.body.Oil_Rating;
         let result = await toUpdate.save();
         console.log("Sucess " + result)
         res.send(result)
