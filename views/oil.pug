@@ -1,7 +1,8 @@
 extends layout
+
 block content
     h1= title
-    - var results = [{"Oil_Name": "Light olive oil", "Oil_Company": "E&P Company", "Oil_cost": 6.3, "Oil_Rating": 4.7},{"Oil_Name": "Coconut oil", "Oil_Company": "Drilling Contractors", "Oil_cost": 9.8, "Oil_Rating": 4.5},{"Oil_Name": "Avocado oil", "Oil_Company": "Refinery", "Oil_cost": 11.6, "Oil_Rating": 4.9}]
+    - var results = results
     div.container-fluid
         div.row
             each item, index in results

@@ -1,0 +1,35 @@
+extends layout 
+
+block content 
+  h1(class="container-fluid p-5 bg-primary text-white text-center")= title
+  form(id='OilForm', action="/resource/oils", method="POST")
+    div.form-group 
+        label.oilAttr(for='Oil_Name') Oil Name 
+        input#Oil_Name(type='text', name='Oil_Name') 
+    div.form-group 
+        label.oilAttr(for='Oil_Company') Oil Company 
+        input#Oil_Company(type='text', name='Oil_Company') 
+    div.form-group 
+        label.oilAttr(for='Oil_cost') Oil cost 
+        input#Oil_cost(type='number', name='Oil_cost')
+    div.form-group 
+        label.oilAttr(for='Oil_Rating') Oil Rating 
+        input#Oil_Rating(type='number', name='Oil_Rating')     
+    input(class="btn btn-success" type="submit") 
+  script. 
+    document.forms['OilForm'].addEventListener('submit', (event) => { 
+      event.preventDefault(); 
+      // TODO do something here to show user that form is being submitted 
+      fetch(event.target.action, { 
+        method: 'POST', 
+        body: new URLSearchParams(new FormData(event.target)) // event.target is the form 
+      }).then((resp) => { 
+        return resp.json(); // or resp.text() or whatever the server sends 
+      }).then((body) => { 
+        alert("Save succeded") 
+        // TODO handle body 
+      }).catch((error) => { 
+        // TODO handle error 
+        alert("Save failed " + error ) 
+      }); 
+    });

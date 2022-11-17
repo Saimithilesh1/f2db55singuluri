@@ -1,0 +1,57 @@
+extends layout 
+ 
+block content 
+  h1(class="container-fluid p-5 bg-warning text-white text-center")= title 
+ 
+  if (toShow == null) 
+    h2 No instance to delete 
+  else 
+    - let Oilid = toShow._id 
+    - let Oil_Name = toShow.Oil_Name
+    - let Oil_Company = toShow.Oil_Company
+    - let Oil_cost = toShow.Oil_cost
+    - let Oil_Rating = toShow.Oil_Rating
+    - let actionid = "/resource/oils/" + Oilid 
+    script let actionid = "#{actionid}" 
+    div 
+      div.row 
+        div(class='oilAttr mr-3') Oil ID is: 
+        div #{Oilid} 
+      div.row 
+        div(class='oilAttr mr-3') Oil Name is: 
+        div #{Oil_Name} 
+      div.row 
+        div(class='oilAttr mr-3') Oil Company is: 
+        div #{Oil_Company} 
+      div.row 
+        div(class='oilAttr mr-3') Oil cost is: 
+        div #{Oil_cost} 
+      div.row 
+        div(class='oilAttr mr-3') Oil Rating is: 
+        div #{Oil_Rating}
+ 
+    button(class="btn btn-danger m-2" onclick="deleteOnid()") Delete 
+    button(class="btn btn-secondary m-2" onclick="cancel()") Cancel 
+ 
+  script. 
+    function cancel() { 
+      // Go back to the home page for the costume collection 
+      window.location.href='/oil' 
+    } 
+  script. 
+    function deleteOnid() { 
+      console.log("starting delete") 
+      // delete first 
+      fetch(actionid, { 
+        method: 'DELETE'      // Don't need a body for the delete 
+      }).then((resp) => { 
+        return resp.json(); // or resp.text() or whatever the server sends 
+      }).then((body) => { 
+        alert("Delete succeded") 
+        window.location.href='/oil' 
+        // TODO handle body 
+      }).catch((error) => { 
+        // TODO handle error 
+        alert("Delete failed " + error ) 
+      }); 
+    } 
