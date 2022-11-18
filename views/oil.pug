@@ -3,11 +3,14 @@ extends layout
 block content
     h1= title
     - var results = results
-    div.container-fluid
-        div.row
-            each item, index in results
-                div.col-sm-2(onclick=`buy(${index})`) Oil Name: #{item["Oil_Name"]} <br> Oil Company: #{item["Oil_Company"]} <br> Oil cost: #{item["Oil_cost"]} <br> Oil Rating: #{item["Oil_Rating"]}
-        script.
-            function buy(index) {
-             alert("You purchased item " + index)
-                }
+    div(class="container-fluid") 
+    div(class="row m-1") 
+      each item in results  
+        - let destination = `dispatch(\"/oil/update?id=${item._id}\")` 
+        div(class="row-sm-2", class="m-1") Item #{item.Oil_Name} #{item.Oil_Company}(#{item.Oil_Rating}) is #{item.Oil_cost} 
+          button.btn( class="btn-primary ml-1", onclick= destination) Update 
+   
+    script. 
+      function dispatch(path){ 
+        window.location.href=path 
+      } 
