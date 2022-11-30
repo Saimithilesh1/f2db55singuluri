@@ -1,13 +1,13 @@
 const mongoose = require("mongoose")
 const oilSchema = mongoose.Schema({
 
-Oil_Name: String,
+Oil_Name: {type: String,required: [true, 'Name of the oil cannot be empty']},
 
-Oil_Company: String,
+Oil_Company: {type: String,required: [true, 'Company of the oil cannot be empty']}, 
 
-Oil_cost: Number,
+Oil_cost: {type: Number,required: [true, 'Cost of the oil cannot be empty']},
 
-Oil_Rating: Number
+Oil_Rating: {type: Number,required: [true, 'Rating of the oil cannot be empty']}
 
 })
 
